@@ -1,5 +1,36 @@
 //people move
 
+void loadPeople()
+{
+	people = playerEvent.storage.people;
+	for (int i = 0; i < people; i++)
+	{
+		playerEvent.pState[i].pos = new iPoint(MainCamera.devWidth - 250, MainCamera.devHeight - 150);
+		playerEvent.pState[i].curPos = playerEvent.pState[i].pos;
+	}
+
+	_moveDt = 3f;
+	peopleInOut = new iPoint[]
+	{
+			new iPoint(MainCamera.devWidth - 250, MainCamera.devHeight - 130),//home
+			new iPoint(MainCamera.devWidth / 2, MainCamera.devHeight - 130),//street
+			new iPoint(MainCamera.devWidth / 2, -50),//up
+			new iPoint(200, MainCamera.devHeight - 150),//field
+			new iPoint(MainCamera.devWidth - 200, MainCamera.devHeight/2 - 100),//lab
+	};
+	float len = 0f, l = 0f;
+	for (int i = 0; i < 2; i++)
+	{
+		iPoint p = peopleInOut[i] - peopleInOut[1 + i];
+		float n = Mathf.Sqrt(p.x * p.x + p.y * p.y);
+		len += n;
+		if (i == 0)
+			l = n;
+	}
+	moveRate = l / len;
+	//setPeople(1, cbPeopleGo);
+}
+
 void setPeople(int behave, MethodPeople method)
 {
 	for (int i = 0; i < people; i++)
